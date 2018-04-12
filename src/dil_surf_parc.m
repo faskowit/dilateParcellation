@@ -1,4 +1,38 @@
 function [ dil_vert_weights , no_more_to_dil ] = dil_surf_parc(vert_weights,nbrs,gap_wei,nbrs_size)
+% dilate a parcellation on the surface - a simple way to dilate a
+% collection of labels on a freesurfer surface so as to fill in surface
+% gaps. for unlabeled vertices of label borders, this function assigns a
+% value based on the mode of neighbor weights that its connected to; using
+% the nbrs_size var, you can modulate the topological 'distance' of the
+% neighborhood to read from.
+%
+% INPUTS
+%
+% vert_weights:         vector (length == number of verticies) of label
+%                       weights
+% nbrs:                 matrix (size1 == number of verticies) of neighbors
+%                       per vertex
+% gap_wei:              the weight in the vert_weight that corresponds to
+%                       gap to be filled; default=1
+% nbrs_size:            when computing the neighbooring label weights, how
+%                       many steps away to read. 1 or 2 seem to work well;
+%                       default=1
+%
+% OUTPUTS
+%
+% dil_vert_weights      the dilated weights
+% no_more_to_dil        a boolean that returns 0, unless there are no more
+%                       weights that equal the gap_wei val (if this is the
+%                       case, then there are no more gaps to dilate into)
+%
+% Josh Faskowitz
+% Indiana University
+% Computational Cognitive Neurosciene Lab
+% See LICENSE file for license
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% do a little input checking
 
 if ~exist('gap_wei','var') || isempty(gap_wei)
     gap_wei = 1 ;
