@@ -98,3 +98,16 @@ axis equal; axis off
 view(90,0)
 camlight headlight; material dull; lighting gouraud
 RH.CDataMapping = 'direct' ;
+
+%% note
+% in this example, the labels are dilated into the medial wall, which is
+% probably what you dont want. to remedy this. you should throw together
+% some code like this:
+%
+% setenv('SUBJECTS_DIR',pwd)
+% sname = 'fsaverage' ;
+% lname = 'rh.Medial_wall' ;
+% rh_medial_wall = read_label(sname,lname) ;
+% w_dil(rh_medial_wall(:,1)+1) = 1 ; % or whatever you want the medial wall labeled as
+
+
